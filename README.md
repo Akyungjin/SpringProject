@@ -1,4 +1,4 @@
-![thymeleaf](https://github.com/Akyungjin/SpringProject/assets/168511916/dbce2118-3fcf-4b51-856d-4c764dac6f14)#스프링 프로젝트
+#스프링 프로젝트
 
 💻 GivuLuv 💻
 ![GivuLuv_logo](https://github.com/Akyungjin/SpringProject/assets/168511916/65e786a0-3e9d-4771-8fa3-a7914c4f462e)
@@ -39,6 +39,7 @@
 6.회원 정보에 대한 마이페이지: 사용자 유형(사용자, 판매자, 사회단체, 관리자)에 따라 세션을 구분하여 뷰를 각각에 맞게 구현하고 CRUD를 이용하여 설계
 
 GivuLuv 인덱스 화면 
+![index](https://github.com/Akyungjin/SpringProject/assets/168511916/e1b08ce5-4d73-448e-8916-671d36c3a2ab)
 
 GivuLuv 기부 / 펀딩 화면 기부 펀딩
 
