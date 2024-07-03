@@ -1,4 +1,4 @@
-#스프링 프로젝트
+![thymeleaf](https://github.com/Akyungjin/SpringProject/assets/168511916/dbce2118-3fcf-4b51-856d-4c764dac6f14)#스프링 프로젝트
 
 💻 GivuLuv 💻
 ![GivuLuv_logo](https://github.com/Akyungjin/SpringProject/assets/168511916/65e786a0-3e9d-4771-8fa3-a7914c4f462e)
@@ -11,17 +11,15 @@
 ![java](https://github.com/Akyungjin/SpringProject/assets/168511916/53823885-1e79-4d4d-9ea7-095f50ed684b)
 ![jquery](https://github.com/Akyungjin/SpringProject/assets/168511916/0cbc176c-031c-4e07-adb9-520360ad759e)
 ![sql](https://github.com/Akyungjin/SpringProject/assets/168511916/d524dd38-f53d-4b4f-902a-f667de25ac65)
+
 ![tomcat](https://github.com/Akyungjin/SpringProject/assets/168511916/78b95c65-b8dc-4a75-9ad3-3f926cf1a1ae)
 
+![html](https://github.com/Akyungjin/SpringProject/assets/168511916/57a85d64-81eb-4a9d-8cb6-2ea3ee73dcb3)
+![css](https://github.com/Akyungjin/SpringProject/assets/168511916/929afebf-754d-4815-b1b9-2c622aada0ac)
+![js](https://github.com/Akyungjin/SpringProject/assets/168511916/e26b7ce1-82f2-4109-ae46-28dd075dae0c)
 
-
-
-
-
-
-
-  
- 
+![spring](https://github.com/Akyungjin/SpringProject/assets/168511916/8b6282e5-2b3d-42d2-8ed0-06c7db5ad326)
+![thymeleaf](https://github.com/Akyungjin/SpringProject/assets/168511916/dbce2118-3fcf-4b51-856d-4c764dac6f14)
 
 📞 Contact 📞
 
