@@ -1,4 +1,4 @@
-![java](https://github.com/Akyungjin/SpringProject/assets/168511916/535d3712-e3fa-4f19-96c2-8a60dc4c54d8)![jquery](https://github.com/Akyungjin/SpringProject/assets/168511916/d3039a51-479d-41ac-b50c-46f9d3f63f0a)![java](https://github.com/Akyungjin/SpringProject/assets/168511916/ad2c83e8-3087-4e76-b0ab-ebfceab26426)#스프링 프로젝트
+#스프링 프로젝트
 
 💻 GivuLuv 💻
 ![GivuLuv_logo](https://github.com/Akyungjin/SpringProject/assets/168511916/65e786a0-3e9d-4771-8fa3-a7914c4f462e)
