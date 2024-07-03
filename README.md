@@ -28,3 +28,6 @@ GivuLuv 기부 / 펀딩 화면 기부 펀딩
 GivuLuv 기부 / 펀딩 상세 기부상세 스크린샷 2024-06-08 오후 3 33 51
 
 GivuLuv 기부(일반/정기 결제) / 펀딩 결제 페이지 기부 결제 펀딩 결제
+![결제 페이지1](https://github.com/Akyungjin/SpringProject/assets/168511916/363e36aa-e886-4921-b865-042344b57b5e)
+![결제 페이지2](https://github.com/Akyungjin/SpringProject/assets/168511916/ef13a73d-0c33-4c25-aa20-c61405035659)
+
