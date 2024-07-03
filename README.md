@@ -42,8 +42,12 @@ GivuLuv 인덱스 화면
 ![index](https://github.com/Akyungjin/SpringProject/assets/168511916/e1b08ce5-4d73-448e-8916-671d36c3a2ab)
 
 GivuLuv 기부 / 펀딩 화면 기부 펀딩
+![기부](https://github.com/jaebinn/springProject/assets/108271458/102c10d5-3b94-415b-b598-9db96a6b0e1c)
+![펀딩](https://github.com/jaebinn/springProject/assets/108271458/55e123fd-2c29-4b7c-ba50-ffd759bf86aa)
 
 GivuLuv 기부 / 펀딩 상세 기부상세 
+![기부상세](https://github.com/jaebinn/springProject/assets/108271458/33f778ef-34df-4a75-b4a2-5f33c1c71b1a)
+<img width="1162" alt="스크린샷 2024-06-08 오후 3 33 51" src="https://github.com/jaebinn/springProject/assets/108271458/e9cc5d6a-dbc8-482b-9442-daacda7f09d3">
 
 GivuLuv 기부(일반/정기 결제) / 펀딩 결제 페이지 기부 결제 펀딩 결제
 ![결제 페이지1](https://github.com/Akyungjin/SpringProject/assets/168511916/363e36aa-e886-4921-b865-042344b57b5e)
