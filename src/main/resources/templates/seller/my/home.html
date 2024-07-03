@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>판매자 myhome</title>
+	<script src="https://kit.fontawesome.com/1924b51539.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="/css/header_footer.css">
+	<link rel="stylesheet" href="/css/seller/my/rank.css">
+	<link rel="stylesheet" href="/css/seller/my/home.css">
+</head>
+
+<body>
+	<!-- header -->
+	<th:block th:replace="~{layout/header::header(loginUser)}"></th:block>
+	
+	<!-- 컨텐츠 -->
+	<div class="wrap">
+		<!-- up_area - 프로필 및 랭킹 -->
+		<th:block th:replace="~{layout/sellerMyPageRank::sellerMyPageRank(loginUser)}"></th:block>
+		
+		<div class="down_area" >
+			<div class="menu_area">
+				<div>
+					<h3>내정보</h3>
+					<a href="/seller/my/myInfoCheck">내정보 수정</a>
+				</div>
+				<div>
+					<h3>상품</h3>
+					<a href="/seller/my/productNow">현재 재고현황</a>
+					<a href="/store/write">새 물품 등록</a>
+				</div>
+				<div>
+					<h3>스토어</h3>
+					<a href="/seller/my/storeList">내 스토어</a>
+					<a href="/seller/my/storeUpdate">스토어 정보 수정</a>
+				</div>
+				<div>
+					<h3>Q&A</h3>
+					<a href="/seller/my/qna">Q&A 목록 및 관리</a>
+				</div>
+				<div>
+					<h3>리뷰</h3>
+					<a href="/seller/my/reviewList">리뷰 목록 및 관리</a>
+				</div>
+			</div>
+			<div class="contents_area">
+				<div class="button_div">
+					<a href="/seller/my/storeList">
+						<img src="/images/seller/my/스토어.png">
+						<span>apple님 스토어</span>
+					</a>
+					<a href="/seller/my/reviewList">
+						<img src="/images/seller/my/review.png">
+						<span>리뷰</span>
+					</a>
+					<a href="/seller/my/qna">
+						<img src="/images/seller/my/qna.png">
+						<span>Q&A</span>
+					</a>
+					<a href="/store/sBoard">
+						<img src="/images/seller/my/쇼핑.png">
+						<span>다른스토어 보기</span>
+					</a>
+				</div>
+				<div class="revenue_div">
+					<!-- 총 판매 상품량 -->
+					<!-- 전체 수익 -->
+				</div>
+				<div class="write_div">
+					<div class="review_div">
+						<h3>리뷰</h3>
+						<a class="homeReview" href="/seller/my/reviewList">
+							<!-- 리뷰 div1 -->
+							<!-- 리뷰 div2 -->
+							<!-- 리뷰 div3 -->
+						</a>
+					</div>
+					<div class="QnA_div">
+						<h3>Q&A</h3>
+						<a class="homeQna" href="/seller/my/qna">
+							<div class="QnA_title">
+								<span>프로필</span>
+								<span>Q&A 내용</span>
+								<span>작성 날짜</span>
+							</div>
+							<!-- QnA div 1 -->
+							<!-- QnA div 2 -->
+							<!-- QnA div 3 -->
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer -->
+	<th:block th:replace="~{layout/footer::footer()}"></th:block>
+</body>
+<script>
+	$(document).ready(function () {
+		// homeIncome
+		$.ajax({
+			url: '/seller/homeIncome',
+			method: 'GET',
+			dataType: 'json',
+			contentType: 'application/json; charset=utf-8',
+			success: function (response) {
+				for (let index = 0; index < response.length; index++) {
+					let item = response[index];
+					
+					//<div class="month_revenue">
+						//<span>총 판매 상품량</span>
+						//<span>0개</span>
+					//</div>
+					//<span>/</span>
+					//<div class="total_revenue">
+						//<span>전체 수익</span>
+						//<span>0원</span>
+					//</div>
+					
+					let str = '<div class="month_revenue">';
+					str += `<span>총 판매 상품량</span>`;
+					str += `<span>${item.totalAmount}개</span>`;
+					str += `</div>`;
+					str += `<span>/</span>`;
+					str += `<div class="total_revenue">`;
+					str += `<span>전체 수익</span>`;
+					str += `<span>${item.totalCost}원</span>`;
+					str += `</div>`;
+					
+					$(".revenue_div").append(str); // 이전에 생성된 HTML에 새로운 요소 추가
+				}
+			},
+			error: function (e) {
+				console.log(e);
+			}
+		});
+		
+		// homeReview
+		$.ajax({
+			url: '/seller/homeReview',
+			method: 'GET',
+			dataType: 'json',
+			contentType: 'application/json; charset=utf-8',
+			success: function (response) {
+				const maxLength = 80; 
+				
+				for (let index = 0; index < Math.min(response.length, 3); index++) {
+					let item = response[index];
+					let reviewDTO = item.review;
+					let sBoardThumbnail = item.sBoardThumbnail;
+					
+					let reviewDetail = reviewDTO.reviewdetail;
+		            if (reviewDetail.length > maxLength) {
+		                reviewDetail = reviewDetail.substring(0, maxLength) + "...";
+		            }
+	
+					let str = '<div class="table">';
+					str += `<img src="/summernoteImage/${sBoardThumbnail.systemname}">`;
+					str += `<div>`;
+					str += `<p>${reviewDetail}`;
+					str += `<p>${reviewDTO.userid}`;
+					str += `<p>${reviewDTO.reviewdate}`;
+					str += `</div>`;
+					str += `</div>`;
+					
+					$(".homeReview").append(str);
+				}
+			},
+			error: function () {
+				let str = '<div class="reviewNull">';
+				str += `<h3>등록된 리뷰가 없습니다.</h3>`;
+				str += `</div>`;
+				
+				$(".homeReview").append(str);
+			}
+		});
+	
+		// homeQnA
+		$.ajax({
+			url: '/seller/homeQnA',
+			method: 'GET',
+			dataType: 'json',
+			contentType: 'application/json; charset=utf-8',
+			success: function (response) {
+				for (let index = 0; index < Math.min(response.length, 6); index++) {
+					let QnaDTO = response[index];
+					
+					let str = '<div class="table">';
+					str += `<img src="/images/default_profile.png">`;
+					str += `<span>${QnaDTO.question}</span>`;
+					str += `<span>${QnaDTO.qnaregdate}</span>`;
+					str += `</div>`;
+					
+					$(".homeQna").append(str); // 이전에 생성된 HTML에 새로운 요소 추가
+				}
+			},
+			error: function () {
+				let str = '<div class="qnaNull">';
+				str += `<h3>등록된 QnA가 없습니다.</h3>`;
+				str += `</div>`;
+				
+				$(".homeQna").append(str);
+			}
+		});
+	});
+</script>
+</html>

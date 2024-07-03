@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gl.givuluv.mapper.OrgMapper">
+	<insert id="insertOrg">
+		insert into org(orgid, orgpw, orgname, orgcategory, logo, orgphone, ceoname, orgzipcode, orgaddr, orgaddrdetail, orgaddretc, orgunqnum) 
+		values(#{orgid},#{orgpw},#{orgname}, #{orgcategory}, #{logo},#{orgphone},#{ceoname}, #{orgzipcode},#{orgaddr},#{orgaddrdetail},#{orgaddretc},#{orgunqnum})
+	</insert>
+	<select id="getOrgById">
+		select * from org where orgid=#{orgid}
+	</select>
+	<select id="getOrgnameByOrgid">
+		select orgname from org where orgid=#{orgid}
+	</select>
+	<select id="getOrgnameByCategory">
+		select orgname from org where orgcategory=#{orgcategory};
+	</select>
+	<select id="getCategoryByOrgid">
+		select orgcategory from org where orgid=#{orgid}
+	</select>
+	<select id="getOrgidByOrgname">
+		select orgid from org where orgname=#{orgname}
+	</select>
+	<select id="getOrgnameListByOrgid">
+		select orgname from org where orgid=#{connectionid}
+	</select>
+	<select id="checkUnqnumber">
+		select count(*) > 0 from org where orgunqnum=#{orgunqnum}
+	</select>
+	<select id="checkPw">
+		select * from org where orgpw=#{orgpw} LIMIT 1
+	</select>
+	<select id="checkRegisterByOrgid">
+		select ifnull(max(isagree), 'n') as isagree from o_approve where orgid = #{loginOrg}
+   </select>	
+	<select id="getOrgPhoneByOrgid">
+		select orgphone from org where orgid = #{orgid}
+	</select>
+	
+	<select id="getCeoNameByOrgid">
+		select ceoname from org where orgid = #{orgid}
+	</select>
+	
+	<select id="getLogoByOrgid">
+		select logo from org where orgid = #{orgid}
+	</select>
+	
+	<select id="getOrgInfo" >
+		select * from org where orgid = #{orgid}
+	</select>
+	
+	<select id="getOrgSystemname">
+		select systemname from file where connectionid = #{orgid}
+	</select>
+	
+	<select id="getD_board">
+		select d_title, target_amount, save_money, d_regdate, d_enddate from d_board where orgid = #{orgid}
+	</select>
+	
+	<select id="getF_board">
+		select f_title, target_amount, save_money, f_regdate, f_enddate from f_board where orgid = #{orgid}
+	</select>
+   	<select id="getDboard_info">
+		select d_title, target_amount, save_money from d_board where orgid = #{orgid}
+	</select>
+	
+	<select id="getDboardtitle">
+		select d_title from d_board where orgid = #{orgid}
+	</select>
+	
+	<select id="getTarget_amount">
+		select target_amount from d_board where orgid = #{orgid}
+	</select>
+	
+	<select id="getSave_money">
+		select save_money from d_board where orgid = #{orgid}
+	</select>
+	
+	<select id="getD_paymentinfo" resultType="String">
+		select userid, d_cost from d_payment where orgid = #{orgid}
+	</select>
+	
+	<select id="getD_payment_id">
+		select userid from d_payment where orgid = #{orgid}
+	</select>
+	
+	<select id="getD_payment_cost">
+		select d_cost from d_payment where orgid = #{orgid}
+	</select>
+	
+	<select id="getFboardtitle">
+		select f_title from f_board where orgid = #{orgid}
+	</select>
+	
+	<select id="getf_Target_amount">
+		select target_amount from f_board where orgid = #{orgid}
+	</select>
+	
+	<select id="getf_Save_money">
+		select sqve_money from f_board where orgid = #{orgid}
+	</select>
+	
+	<select id="getFollow">
+		select userid from follow where orgid = #{orgid} LIMIT 1
+	</select>
+	
+	<select id="getFollow_amount">
+		select count(follownum) from follow where orgid = #{orgid}
+	</select>
+	
+	<select id="getD_boardnum">
+		select d_boardnum from d_payment where orgid = #{orgid} LIMIT 1
+	</select>
+	
+	<select id="getLike_id">
+		select userid from `like` where connectid = #{d_boardnum}
+	</select>
+	
+	<select id="getLike_amount">
+		select count(likenum) from `like` where connectid = #{d_boardnum}
+	</select>
+	
+	<select id="getF_boardnum">
+		select f_boardnum from f_payment where orgid = #{orgid}
+	</select>
+	
+	<select id="getProduct_name">
+		select productname from product where connectid = #{f_boardnum}
+	</select>
+	<select id="getp_amount">
+		select f_boardnum from f_payment where f_boardnum = #{f_boardnum}
+	</select>
+	<select id="getp_cost">
+		select f_boardnum from f_payment where f_boardnum = #{f_boardnum}
+	</select>
+	
+	<select id="getReview_id">
+		select userid from review where connectid = #{f_boardnum}
+	</select>
+	<select id="getReview_date">
+		select reviewdate from review where connectid = #{f_boardnum}
+	</select>
+	<select id="getReview_star" >
+		select star from review where connectid = #{f_boardnum}
+	</select>
+	
+	<select id="getD_boardinfo">
+		select d_title, target_amount, save_money from d_board where orgid = #{orgid}
+	</select>
+	
+	<select id="getF_boardinfo">
+		select f_title, target_amount, save_money from f_board where orgid = #{orgid}
+	</select>
+	
+	<select id="getReviewinfo">
+		select userid, reviewdate, star from review where connectid = #{f_boardnum}
+	</select>
+	
+	<select id="getFollowinfo">
+		select userid , count(follownum) as f_amount from follow where orgid = #{orgid} group by userid
+	</select>
+	
+	<select id="getLikeinfo">
+		select userid, count(likenum) as like_amount from `like` where connectid = #{d_boardnum} group by userid
+	</select>
+	
+	<select id="getLike_cnt">
+		select count( DISTINCT likenum) as like_cnt from `like` join d_payment on d_payment.orgid = #{orgid}
+	</select>
+	<select id="getReview_cnt">
+		select count( DISTINCT reviewnum) as review_cnt from review join d_payment on d_payment.orgid = #{orgid}
+	</select>
+	<select id="getFollow_cnt">
+		select count( DISTINCT follownum) as follow_cnt from follow where orgid = #{orgid}
+	</select>
+	
+	<update id="updateOrg">
+		update org set orgpw=#{org.orgpw}, orgphone=#{org.orgphone}, ceoname=#{org.ceoname}
+			where orgid = #{org.orgid}
+	</update>
+	<update id="modify">
+		update org set 
+		<trim suffixOverrides=",">
+		<if test="orgpw !=null">
+			orgpw=#{orgpw},
+		</if>
+		<if test="orgphone !=null">
+			orgphone=#{orgphone},
+		</if>
+		<if test="ceoname !=null">
+			ceoname=#{ceoname}
+		</if>
+		</trim>
+			where orgid = #{orgid}
+		
+	</update>
+	<delete id="deleteOrg">
+		delete from org where orgid=#{orgid}
+	</delete>
+	<delete id="deleteFollow">
+		delete from follow where orgid = #{orgid}
+	</delete>
+	<delete id="deleteD_payment">
+		delete from d_payment where orgid = #{orgid}
+	</delete>
+	<delete id="deleteF_payment">
+		delete from f_payment where orgid = #{orgid}
+	</delete>
+	
+	<delete id="deleteD_Like">
+		delete from like where connectid = #{d_boardnum}
+	</delete>
+	<delete id="deleteF_Like">
+		delete from like where connectid = #{d_boardnum}
+	</delete>
+	<delete id="deleteD_Review">
+		delete from Review where connectid = #{d_boardnum}
+	</delete>
+	<delete id="deleteF_Review">
+		delete from Review where connectid = #{d_boardnum}
+	</delete>
+	<delete id="deleteO_approve">
+		delete from o_approve where orgid = #{orgid}
+	</delete>
+	
+	<delete id="deleteO_register">
+		delete from o_register where orgid = #{orgid}
+	</delete>
+	
+	<delete id="deleteD_board">
+		delete from d_board where orgid = #{orgid}
+	</delete>
+	
+	<delete id="deleteF_board">
+		delete from f_board where orgid = #{orgid}
+	</delete>
+	<select id="checkuserPw">
+      select orgpw from org where orgpw=#{orgpw}
+   </select>
+</mapper>

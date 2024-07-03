@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<header>
+	<meta charset="UTF-8">
+	<title>일반유저 User_Like</title>
+	<link rel="stylesheet" href="/css/userMyPageMenu.css">	
+	<link rel="stylesheet" href="/css/userMyActivityHistory.css">
+	<link rel="stylesheet" href="/css/header_footer.css">
+	<script src="https://kit.fontawesome.com/516da99189.js" crossorigin="anonymous"></script>
+	
+</header>
+<body>
+	<!-- header -->
+	<th:block th:replace="~{layout/header::header(loginUser)}"></th:block>
+	
+	<!-- 컨텐츠 -->
+	<div class="wrap">
+		<!-- 왼쪽 메뉴바 -->
+		<th:block th:replace="~{layout/userMyPageMenu::userMyPageMenu(loginUser)}"></th:block>
+		<!-- 오른쪽 내용 -->
+		<div class="left_div">
+			<h2>좋아요 리스트</h2>
+			<!--<div class="button_div">
+				페이지 이동???
+				<a href="#"><input type="button" value="게시글 내역"></a>
+				<a href="#"><input type="button" value="기부 내역"></a>
+				<a href="#"><input type="button" value="펀딩 내역"></a>
+				<a href="#"><input type="button" value="가게 내역"></a>
+			</div>-->
+			<div class="user_div">
+			<div id="user_name"><a id="like_user">[[${loginUser}]]</a>님의 관심리스트 입니다</div>
+			</div>
+			<div class="contents_div">
+				
+				<div class="contents like_list" id="like_list" th:if="${not #lists.isEmpty(d_likeinfo)}" th:each="donationItem : ${d_likeinfo}">
+					<!--이미지 경로를 모르겠음-->
+					
+						<img id="content_img" th:src="${d_systemname}">
+					
+					<!--=========================================-->
+					
+					<div>
+						
+						[기부]<a href="#"><p th:text = "${donationItem.d_title}" > </p></a>
+						<p th:text = "${donationItem.orgid}" class="boardnum"></p>
+						<!--<p th:text="${Board.cTitle}"></p>-->
+						
+						
+						<!--<Form th:action="@{/user/delete_like(c_board=${Board.cBoardnum})}" method="Get" name="deleteLikeForm">-->
+						<!--<input type="button" value="관심삭제" id="del_like" onclick= "deleteLike()">
+						<input type="hidden" value="${Board.cBoardnum}" id="hidden">-->
+						
+						<!--<p th:text = "${Board.cBoardnum}"></p>-->
+						<!--<input type="button" value="관심해제" id="del_like" onclick="">-->
+					</div>
+				</div>
+				
+				
+				<div class="contents like_list" id="like_list" th:if="${not #lists.isEmpty(f_likeinfo)}" th:each="fundingItem : ${f_likeinfo}">
+									<!--이미지 경로를 모르겠음-->
+									
+										<img id="content_img"  th:src="${f_systemname}">
+									
+									<!--=========================================-->
+									
+									<div>
+										
+										[펀딩]<a href="#"><p th:text = "${fundingItem.f_title}" > </p></a>
+										<p th:text = "${fundingItem.orgid}" class="boardnum"></p>
+										<!--<p th:text="${Board.cTitle}"></p>-->
+										
+										
+										<!--<Form th:action="@{/user/delete_like(c_board=${Board.cBoardnum})}" method="Get" name="deleteLikeForm">-->
+										<!--<input type="button" value="관심삭제" id="del_like" onclick= "deleteLike()">
+										<input type="hidden" value="${Board.cBoardnum}" id="hidden">-->
+										
+										<!--<p th:text = "${Board.cBoardnum}"></p>-->
+										<!--<input type="button" value="관심해제" id="del_like" onclick="">-->
+									</div>
+								</div>
+			</div>
+			<div th:if="${#lists.isEmpty(d_likeinfo) == true and #lists.isEmpty(f_likeinfo) == true}"  id="empty_msg">
+							<p id="empty">내역이 존재하지 않습니다.</p>
+						</div>
+				
+			</div>
+			
+		</div>
+	</div>
+	
+	<!-- footer -->
+	<th:block th:replace="~{layout/footer::footer()}"></th:block>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+	$(document).ready(function () {
+		    // 한 번에 표시할 아이템의 개수 설정
+		    var itemsPerPage = 6;
+		
+		    // 아이템의 총 개수
+		    var totalItems = $('.contents like_list').length;
+		
+		    // 초기에는 itemsPerPage 개수까지만 표시되도록 설정
+		    $('.contents like_list:gt(' + (itemsPerPage - 1) + ')').hide();
+		
+		    // 아이템이 itemsPerPage 개수 이하이면 더보기 버튼 숨기기
+		    if (totalItems <= itemsPerPage) {
+		        $('#load-more-btn').hide();
+		    }
+		    // 더보기 버튼 클릭 시
+		    $('#load-more-btn').on('click', function () {
+		        // itemsPerPage 개수 만큼 추가로 표시
+		        $('.contents like_list:hidden').slice(0, itemsPerPage).slideDown();
+		        // 아직 표시하지 않은 아이템의 개수 갱신
+		        totalItems -= itemsPerPage;
+		        // 남은 아이템이 itemsPerPage 개수 이하이면 더보기 버튼 숨기기
+		        if (totalItems <= itemsPerPage) {
+		            $('#load-more-btn').hide();
+		        }
+		    });
+		});
+	
+	
+</script>
+	
+	
+
+	
+
+
+</html>

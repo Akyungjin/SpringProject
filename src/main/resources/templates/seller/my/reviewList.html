@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>판매자 myReviewList</title>
+	<script src="https://kit.fontawesome.com/1924b51539.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="/css/header_footer.css">
+	<link rel="stylesheet" href="/css/seller/my/rank.css">
+	<link rel="stylesheet" href="/css/seller/my/reviewList.css">
+</head>
+
+<body>
+	<!-- header -->
+	<th:block th:replace="~{layout/header::header(loginUser)}"></th:block>
+
+	<!-- 컨텐츠 -->
+	<div class="wrap">
+		<!-- up_area - 프로필 및 랭킹 -->
+		<th:block th:replace="~{layout/sellerMyPageRank::sellerMyPageRank(loginUser)}"></th:block>
+
+		<div class="down_area">
+			<div class="menu_area">
+				<div>
+					<h3>내정보</h3>
+					<a href="/seller/my/myInfoCheck">내정보 수정</a>
+				</div>
+				<div>
+					<h3>상품</h3>
+					<a href="/seller/my/productNow">현재 재고현황</a>
+					<a href="/store/write">새 물품 등록</a>
+				</div>
+				<div>
+					<h3>스토어</h3>
+					<a href="/seller/my/storeList">내 스토어</a>
+					<a href="/seller/my/storeUpdate">스토어 정보 수정</a>
+				</div>
+				<div>
+					<h3>Q&A</h3>
+					<a href="/seller/my/qna">Q&A 목록 및 관리</a>
+				</div>
+				<div>
+					<h3>리뷰</h3>
+					<a href="/seller/my/reviewList">리뷰 목록 및 관리</a>
+				</div>
+			</div>
+			<div class="contents_area">
+				<div class="button_div">
+					<a href="/seller/my/storeList">
+						<img src="/images/seller/my/스토어.png">
+						<span>apple님 스토어</span>
+					</a>
+					<a href="/seller/my/reviewList">
+						<img src="/images/seller/my/review.png">
+						<span>리뷰</span>
+					</a>
+					<a href="/seller/my/qna">
+						<img src="/images/seller/my/qna.png">
+						<span>Q&A</span>
+					</a>
+					<a href="/store/sBoard">
+						<img src="/images/seller/my/쇼핑.png">
+						<span>다른스토어 보기</span>
+					</a>
+				</div>
+				<!-- ======= -->
+				<!--  div -->
+				<h1>리뷰 목록 및 관리</h1>
+				<div class="reviewList_div">
+					<div th:if="${reviewList != null and reviewList.size() > 0}" th:each="review:${reviewList}" class="review">
+						<div class="profile">
+							<img src="/images/default_profile.png">
+						</div>
+						<div class="contents_div">
+							<div th:switch="${review.star}" class="star">
+								<img th:case="'5'" src="/images/seller/my/5점.png">
+								<img th:case="'4'" src="/images/seller/my/4점.png">
+								<img th:case="'3'" src="/images/seller/my/3점.png">
+								<img th:case="'2'" src="/images/seller/my/2점.png">
+								<img th:case="'1'" src="/images/seller/my/1점.png">
+								<span>[[${review.star}]]점</span>
+							</div>
+							<div class="contents">
+								<p>[[${review.userid}]] / [[${review.reviewdate}]]</p>
+								<div th:if="${sBoardList != null and sBoardList.size() > 0}" th:each="sBoard:${sBoardList}">
+									<p th:text="${sBoard.sBoardnum} == ${review.connectid} ? '게시판 제목 : '+${sBoard.sTitle} :''"></p>									
+								</div>
+								<p class="reviewdetail">[[${review.reviewdetail}]]</p>
+							</div>
+						</div>
+						<div class="poto_div">
+							<div th:if="${sBoardThumbnailList != null and sBoardThumbnailList.size() > 0}" th:each="sBoardThumbnail:${sBoardThumbnailList}">
+								<img th:if="${review.connectid} == ${sBoardThumbnail.connectionid}" th:src="@{${sBoardThumbnail.systemname}}">
+							</div>
+						</div>
+					</div>
+					<div th:if="${reviewList == null}" class="reviewNull">
+						<h2>등록된 리뷰가 없습니다.</h2>
+					</div>
+				</div>
+				<div class="nextDiv">
+					<i class="fa-solid fa-circle-plus" id="load-more-btn"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer -->
+	<th:block th:replace="~{layout/footer::footer()}"></th:block>
+</body>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+	$(document).ready(function () {
+	    // 한 번에 표시할 아이템의 개수 설정
+	    var itemsPerPage = 5;
+	
+	    // 아이템의 총 개수
+	    var totalItems = $('.review').length;
+	
+	    // 초기에는 itemsPerPage 개수까지만 표시되도록 설정
+	    $('.review:gt(' + (itemsPerPage - 1) + ')').hide();
+	
+	    // 아이템이 itemsPerPage 개수 이하이면 더보기 버튼 숨기기
+	    if (totalItems <= itemsPerPage) {
+	        $('#load-more-btn').hide();
+	    }
+	    // 더보기 버튼 클릭 시
+	    $('#load-more-btn').on('click', function () {
+	        // itemsPerPage 개수 만큼 추가로 표시
+	        $('.review:hidden').slice(0, itemsPerPage).slideDown();
+	        // 아직 표시하지 않은 아이템의 개수 갱신
+	        totalItems -= itemsPerPage;
+	        // 남은 아이템이 itemsPerPage 개수 이하이면 더보기 버튼 숨기기
+	        if (totalItems <= itemsPerPage) {
+	            $('#load-more-btn').hide();
+	        }
+	    });
+	});
+</script>
+
+</html>

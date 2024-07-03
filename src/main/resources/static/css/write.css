@@ -1,0 +1,386 @@
+@font-face {
+	font-family: 'NIXGONM-Vb';
+	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'TTLaundryGothicB';
+	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2') format('woff2');
+	font-weight: 700;
+	font-style: normal;
+}
+p{
+	margin:0;
+}
+
+a,
+a:hover,
+a:focus,
+a:active,
+a:visited,
+a:target {
+	text-decoration: none;
+	/*background-color: transparent;*/
+	color: #424242;
+	user-select: none;
+}
+
+.btn {
+	padding: 10px;
+	border-radius: 20px;
+	background-color: rgb(231, 112, 151);
+	color: white;
+	font-family: 'NIXGONM-Vb';
+	font-size: 20px;
+	text-align: center;
+	cursor: pointer;
+	user-select: none;
+	border: none;
+}
+
+.btn:hover,
+.btn:focus {
+	color: white;
+}
+
+.container {
+	width: 1340px;
+	margin: 0 auto;
+}
+
+
+.logo {
+	width: 60px;
+	height: 60px;
+}
+
+.writeheader {
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+.writeheaderleft {
+	display: flex;
+	align-items: center;
+	font-family: 'TTLaundryGothicB';
+}
+
+.writeheaderleft>p {
+	margin: 0;
+	font-size: 30px;
+	margin-left: 10px;
+}
+
+.title {
+	border: 0;
+	border-bottom: 1px solid #424242;
+	font-size: 24px;
+	padding: 13px;
+	width: 800px;
+	margin: 0 auto;
+	margin-bottom: 10px;
+}
+
+.title:focus-visible {
+	outline: none;
+}
+
+.boxes {
+	display: flex;
+	justify-content: space-between;
+}
+
+/* 사이드 바 */
+.option {
+	display: flex;
+	height: fit-content;
+	flex-direction: column;
+	align-items: end;
+	user-select: none;
+	background-color: rgba(231, 112, 151, 0.2);
+	border-radius: 20px;
+	padding: 20px;
+}
+
+/* 목표 금액 */
+.targetAmount_box {
+	display: inline-block;
+	margin-bottom: 20px;
+}
+
+.targetAmount_box>i {
+	font-size: 24px;
+	color: #222;
+}
+
+.targetAmount {
+	padding: 10px;
+	font-size: 20px;
+}
+
+/* 상품 */
+.product_box{
+	width: 200px;
+	margin: 20px 0;
+}
+.product_box p{
+	font-size: 30px;
+	color: white;
+	font-weight: bold;
+}
+.product_box input{
+	margin-bottom: 10px;
+	width: 180px;
+	height: 30px;
+	border: none;
+	font-size: 18px;
+	background-color: transparent;
+	border-bottom: 1px solid #424242;
+}
+.product{
+	margin-bottom: 5px;
+}
+.product p{
+	text-shadow: 1px 1px 1px #999;
+}
+.product_btn_box{
+	margin: 5px 0 20px 0;
+}
+.product_box .btn{
+	font-size: 18px;
+}
+
+/* 캘린더 */
+.calendar_box {
+	display: inline-block;
+	margin-bottom: 20px;
+	padding: 8px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-top: 5px solid rgb(255, 128, 192);
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.calendar_box>p {
+	display: inline-block;
+	margin: 0;
+}
+
+.calendar_box>i {
+	color: rgb(255, 164, 209);
+}
+
+.datetime {
+	width: 120px;
+	padding: 5px;
+	font-size: 20px;
+	border-radius: 30px;
+	border: none;
+	background: linear-gradient(to right, rgb(236, 138, 170) 0%, rgb(255, 164, 209) 100%);
+	color: white;
+	text-align: center;
+}
+
+.datetime:hover {
+	cursor: pointer;
+}
+
+.daterangepicker.opensright:after {
+	left: unset !important;
+	right: 10px;
+}
+
+.daterangepicker.opensright:before {
+	left: unset !important;
+	right: 9px;
+}
+
+/* file */
+.thumbnail_box {
+	width: 180px;
+	background-color: rgba(255, 128, 192, 0.2);
+	padding: 20px;
+	padding-bottom: 30px;
+}
+
+img.thumbnailImg {
+	display: block;
+	width: 180px;
+	margin-bottom: 10px;
+}
+
+#file_box #thumbnailname {
+	margin: 0;
+	margin-bottom: 20px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* summernote */
+.note-editor.note-frame {
+	margin-top: 10px;
+}
+
+.note-toolbar {
+	background-color: rgba(255, 128, 192, 0.2) !important;
+}
+
+.note-resizebar {
+	display: none !important;
+}
+
+.note-statusbar {
+	border-top: none !important;
+}
+
+.campaignwrite .note-editor.note-frame{
+	width: 1340px !important;
+}
+
+
+
+
+
+/*info write*/
+.infowritecontainer .writeheader_box{
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background-color: rgb(252, 233, 239);
+	z-index: 3;
+}
+.infowritecontainer .writeheader{
+	max-width: 1340px;
+	margin: 0 auto;
+}
+.infowrite{
+	margin-top: 100px;
+}
+.infowrite .option{
+	display: block; position: absolute;
+	z-index: unset;
+	width: 100%; height: 500px; left: 0;  right: 0;
+	border-radius: 0; border: 1px solid #666; border-right: 0;border-left: 0;
+	padding: 0; margin: 0; background-color: unset;
+}
+.infowrite .thumbnail_box{
+	display: block; width: 100%; height: 100%; padding: 0; margin: 0;
+	background: url(https://cdn-icons-png.flaticon.com/128/12206/12206382.png) no-repeat center/10%
+}
+.infowrite .thumbnailImg{
+	width: 1920px;
+	height: 500px;
+}
+.infowrite .boxes{
+	display: flex;
+	justify-content: center;
+}
+.infowrite .textarea_box{
+	width: 100%;
+	margin-top: 550px;
+	border: 1px solid #666;
+	border-right: none;
+	border-left: none;
+	padding: 50px;
+	margin-bottom: 50px;
+}
+.infowrite .textarea_box th{
+	text-align: start;
+	padding-bottom: 20px;
+}
+.infowrite .textarea_box td{
+	width: 1040px;
+	justify-self: start;
+	padding-bottom: 20px;
+}
+.infowrite .textarea_box *{
+	font-family: NIXGONM-Vb;
+}
+.infowrite .info_onimg{
+	position: absolute;
+	top: 0;
+	z-index: 2;
+	color: white;
+}
+.infowrite .orgname_onimg{
+	font-weight: bold;
+	font-size: 60px;
+}
+.infowrite .summary_onimg{
+	font-size: 30px;
+}
+.infowrite .textarea_box input{
+	width: 1040px;
+	padding: 10px 5px;
+	border: none;
+	font-size: 24px;
+	border-bottom: 1px solid #666;
+}
+.infowrite .textarea_box input:focus-visible{
+	outline: none;
+}
+.infowrite .textarea_box .content_info{
+	font-size: 16px;
+	width: 1040px;
+	min-height: 100px;
+	resize: none;
+	padding: 10px;
+}
+.infowrite .textarea_box .content_info::-webkit-scrollbar{
+	display: none;
+}
+.infowrite .thumbnailImg{
+	height: 500px;
+}
+.infowrite .imgfile_box{
+	padding: 20px;
+	margin: 0 auto;
+}
+.infowrite .imgfile_box th{
+	padding: 20px;
+}
+.infowrite .imgfile_box td{
+	padding: 20px;
+}
+.infowrite .file_upload{
+	display: block;
+	width: 1140px;
+	height: 520px;
+	border: 1px solid #666;
+	background: url(https://cdn-icons-png.flaticon.com/128/12206/12206382.png) no-repeat center/10%
+}
+.infowrite .file_upload img{
+	width: 1140px;
+	height: 520px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

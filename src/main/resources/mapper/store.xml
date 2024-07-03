@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gl.givuluv.mapper.StoreMapper">
+	<!--MDM-->
+	<insert id="insertStore">
+		insert into store(s_name, s_regnum, s_phone, s_zipcode, s_addr, s_addrdetail, s_addretc, s_opendate, s_leader, sellerid)
+		values(#{sName}, #{sRegnum}, #{sPhone}, #{sZipcode}, #{sAddr}, #{sAddrdetail}, #{sAddretc}, now(), #{sLeader}, #{sellerid})
+	</insert>
+	
+	<select id="getStoreBySellerId">
+		select * from store where sellerid=#{sellerid}
+	</select>
+	<!--<select id="getStoreBySBoardnum">
+		
+	</select>	-->
+	<select id ="getStoreById">
+	     select * from store where s_num = #{snum}
+	</select>
+	
+	<select id ="getStoreName">
+	     select s_name from store where s_num = #{snum}
+	</select>
+	<select id="getMStoreList">
+		select * from store where p_type='M';
+	</select>
+	<select id="getStoreBySBoardnum">
+		select st.* from s_board s join store st on s.s_num = st.s_num where s.s_boardnum=#{sBoardnum};
+	</select>
+	<select id ="getStoreBySName">
+        select * from store where s_name = #{sName}
+   </select>
+   <select id="getStoreListBySNum">
+		select * from store where s_num=#{sNum}
+   </select>
+   <update id="updateStore">
+      update store
+      set s_name=#{store.sName}, s_phone=#{store.sPhone}, s_zipcode=#{store.sZipcode},
+      s_addr=#{store.sAddr}, s_addrdetail=#{store.sAddrdetail}, s_addretc=#{store.sAddretc},
+      s_opendate=#{store.sOpendate}, s_leader=#{store.sLeader}
+      where sellerid = #{sellerid};
+   </update>
+   
+   <select id="checkStorename">
+		select count(*) from s_register where s_name = #{storename}
+   </select>
+   <select id="checkRegnum">
+		select count(*) from s_register where s_regnum = #{regnum}
+   </select>
+   <!--스토어 신청-->
+   <insert id="insertStoreSignup">
+		insert into s_register(s_name, s_regnum, s_phone, s_zipcode, s_addr, s_addrdetail, s_addretc, s_leader, sellerid, information)
+		values(#{sName}, #{sRegnum}, #{sPhone}, #{sZipcode}, #{sAddr}, #{sAddrdetail}, #{sAddretc}, #{sLeader}, #{sellerid}, #{information})
+   </insert>
+   <select id="checkStoreBySellerid">
+		select ifnull(max(isagree), 'n') as isagree from s_register where sellerid = #{loginSeller}
+   </select>
+    <select id="storeInfoCheck">
+      select count(*) from s_info where s_num = (select s_num from store where sellerid = #{sellerid})
+   </select>
+   <select id="getStoreByStorenum">
+		select s_name from store where s_num = #{storenum}
+   </select>
+   <!--MDM-->
+   <delete id="cancelStore">
+		delete from store where s_name = #{sname}
+   </delete>
+   <delete id="deleteStoreBySellerid">
+      DELETE FROM store WHERE sellerid = #{sellerid}
+   </delete>
+</mapper>

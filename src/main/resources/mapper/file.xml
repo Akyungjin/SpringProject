@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gl.givuluv.mapper.FileMapper">
+	<insert id="insertFile">
+		insert into file values(#{systemname}, #{connectionid}, #{type}, 'N')
+	</insert>
+	 <insert id="insertThumbnail">
+      	insert into file values(#{systemname},#{connectionid},#{type},'Y')
+   </insert>
+   <select id="getFiles">
+		select * from file;
+   </select>
+   <select id="getSystemnameByBoardnum">
+		select systemname from file where connectionid=#{dBoardnum}
+   </select>
+   <select id="getFileByProductnum">
+		select * from file where connectionid = #{productnum} and type = 'M'
+	</select>
+	<select id="getFile">
+		select *
+		from file
+		where type = #{type} and connectionid=#{connectionid}
+   </select>
+    <select id="getFileByFBoardnum">
+		select systemname from file where connectionid=#{FBoardnum} and type='F' and boardthumbnail='Y'
+	</select>
+	<select id="getOrgProfileByOrgid">
+		select systemname from file where connectionid=#{orgid} and type='O' and boardthumbnail='N'
+	</select>
+	<select id="getSellerProfileById">
+		select systemname from file where connectionid=#{sellerid} and type='P' and boardthumbnail='N'
+	</select>
+	<select id="getSellerProfileListById">
+		select systemname from file where connectionid=#{sellerid} and type='P' and boardthumbnail='N'
+	</select>
+	<select id="getSBoardFile">
+        select * from file where connectionid = #{connectid} and type = 'M' and boardthumbnail='Y'
+    </select>
+   
+	<select id="getFileByStorenum">
+		select * from file where connectionid=#{sellerid} and type='P' and boardthumbnail='N'
+	</select>
+	<select id="getFileBySellerid">
+		select systemname from file where connectionid = #{sellerid} and type = 'P' and boardthumbnail='N'
+	</select>
+	<select id="getFileBySBoardnum">
+		select systemname from file where connectionid=#{SBoardnum} and type='M' and boardthumbnail='Y'
+	</select>
+	<select id="getOrgProfile">
+		select * from file where type='O' and boardthumbnail='N';
+	</select>
+	<select id="getFileListBySellerid">
+		select * from file where connectionid=#{sellerid} and type='P' and boardthumbnail='N'
+	</select>
+	<!--MDM-->
+	<select id="getStoreMainImg">
+		select systemname from file where type = 'S' and boardthumbnail='Y' and connectionid = #{storenum}
+	</select>
+	<!--MDM-->
+	<select id="getStoreSubImg">
+		select systemname from file where type = 'S' and boardthumbnail='N' and connectionid = #{storenum}
+	</select>
+	<update id="updateFile">
+		update file set systemname = #{systemname} where connectionid = #{connectionid}
+	</update>
+	<update id="updateFiles">
+      update file
+      set systemname=#{fdto.systemname}, connectionid=#{fdto.connectionid},
+      type=#{fdto.type}, boardthumbnail=#{fdto.boardthumbnail}
+      where connectionid = #{connectionid};
+   </update>
+
+   <delete id="deleteSellerProfile">
+      delete from file where connectionid = #{connectionid}
+   </delete>
+</mapper>

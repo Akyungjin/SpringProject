@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gl.givuluv.mapper.PaymentMapper">
+	<!-- *기부결제* -->
+	<select id="getDPayment">
+		select * from d_payment
+	</select>
+	<!-- 일반 결제 -->
+	<insert id="insertPayment">
+		insert into d_payment(userid, orgid, d_boardnum, d_cost, type) values(#{userid}, #{orgid}, #{dBoardnum}, #{dCost}, 'p');
+	</insert>
+	<!-- 정기 결제 -->
+	<insert id="insertRPayment">
+		insert into d_payment(userid, orgid, d_boardnum, d_cost, type) values(#{userid}, #{orgid}, #{dBoardnum}, #{dCost}, 'r');
+	</insert>
+	<select id="getTotalCostByBoardnum">
+		select coalesce(sum(d_cost), 0) from d_payment where d_boardnum=#{d_boardnum}
+	</select>
+	<select id="getTotalCostByOrgid">
+		 select coalesce(sum(d_cost), 0) from d_payment where orgid=#{orgid}
+	</select>
+	<select id="getRdonationCntByType">
+		select count(distinct userid) from d_payment where d_boardnum=#{d_boardnum} and type='r';
+	</select>
+	<select id="getLastPaymentById">
+		select * from d_payment where userid=#{userid} and type='p' order by paymentnum desc limit 1;
+	</select>
+	<select id="getLastRPaymentById">
+		select * from d_payment where userid=#{userid} and type='r' order by paymentnum desc limit 1;
+	</select>
+	<select id="getTodayDonationCost">
+		select coalesce(sum(d_cost),0) from d_payment where date(paydate) = curdate()
+	</select>
+	<select id="getTodayDonationPeople">
+		select coalesce(count(distinct userid),0) from d_payment where date(paydate) = curdate();
+	</select>
+	<select id="getDonationTotalPeople">
+		select count(distinct userid) from d_payment;
+	</select>
+	<select id="getDonationTotalCost">
+		select coalesce(sum(d_cost),0) from d_payment;
+	</select>
+	<!-- *펀딩결제* -->
+	<insert id="insertFPayment">
+		insert into f_payment(userid, orgid, f_boardnum, f_cost, amount, productnum, reqetc) values(#{userid},#{orgid},#{FBoardnum},#{FCost},#{amount},#{productnum},#{reqetc})
+	</insert>
+	<select id="getFundingTotalPeople">
+		select count(distinct userid) from f_payment;
+	</select>
+	<select id="getFundingTotalCost">
+		select coalesce(sum(f_cost),0) from f_payment;
+	</select>
+	<select id="getLastFPaymentById">
+		select * from f_payment where userid=#{userid} order by paymentnum desc limit 1;
+	</select>
+	<select id="getFPaymentByPaymentnum">
+		select * from f_payment where paymentnum=#{paymentnum}
+	</select>
+	<select id="getUserByPaymentnum">
+		select u.* from f_payment p join user u on p.userid = u.userid where paymentnum=#{paymentnum}
+	</select>
+	<select id="getProductByProductnum">
+		select pr.* from f_payment p join product pr on p.productnum = pr.productnum where p.productnum=#{productnum} order by paymentnum desc limit 1;
+	</select>
+	<select id="getFBoardByFBoardnum">
+		select f.* from f_payment p join f_board f on p.f_boardnum = f.f_boardnum where p.f_boardnum=#{fBoardnum} order by paymentnum desc limit 1;
+	</select>
+	<select id="getOrgnameByOrgid">
+		select o.orgname from f_payment p join org o on p.orgid = o.orgid = p.orgid=#{ordig} order by paymentnum desc limit 1
+	</select>
+	<delete id="fundCancelByNum">
+		delete from f_payment where paymentnum=#{paymentnum}
+	</delete>
+	
+	<!-- 가게 결제 -->
+	<insert id="insertSPayment">
+		insert into s_payment(userid, sellerid, s_boardnum, s_cost, amount, productnum, reqetc) 
+		values(#{userid},#{sellerid},#{SBoardnum},#{SCost},#{amount},#{productnum},#{reqetc})
+	</insert>
+	<select id="getLastSPaymentById">
+		select * from s_payment where userid=#{userid} order by paymentnum desc limit 1;
+	</select>
+	<select id="getSPaymentByPaymentnum">
+		select * from s_payment where paymentnum = #{paymentnum}
+	</select>
+	<select id="getUserBySPaymentnum">
+		select u.* from s_payment p join user u on p.userid = u.userid where paymentnum=#{paymentnum}
+	</select>
+	<select id="getSBoardBySBoardnum">
+		select * from s_board where s_boardnum = #{sBoardnum}
+	</select>
+	<select id="getSProductByProductnum">
+		select pr.* from s_payment p join product pr on p.productnum = pr.productnum where p.productnum=#{productnum} order by paymentnum desc limit 1;
+	</select>
+	<select id="getLastSPaymentBySellerid">
+      select * from s_payment where sellerid = #{sellerid}
+   </select>
+   <delete id="deleteSPayment">
+       delete from s_payment where sellerid = #{sellerid};
+   </delete>
+</mapper>

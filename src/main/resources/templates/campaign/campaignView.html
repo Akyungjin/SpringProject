@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script src="https://kit.fontawesome.com/516da99189.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="/css/campaignList.css">
+	<link rel="stylesheet" href="/css/header_footer.css">
+</head>
+
+<body>
+	<th:block th:if="${ session.loginOrg == null && session.loginManager == null && session.loginUser == null }">
+		<script>
+			alert("로그인 후 이용하세요!");
+			location.replace("/");
+		</script>
+	</th:block>
+
+	<!-- header -->
+	<th:block th:replace="~{layout/header::header(loginUser)}"></th:block>
+	<!-- 컨텐츠 -->
+	<div class="wrap campaignView mt">
+		<div th:id="${'board'+cboard.cBoardnum}" class="orgBoard board">
+			
+		</div>
+	</div>
+	<!-- footer -->
+	<th:block th:replace="~{layout/footer::footer()}"></th:block>
+</body>
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="/js/campaign.js"></script>
+<script th:inline="javascript">
+	$('.h_logout').on('click', function () {
+		alert("로그아웃되었습니다.")
+	})
+	
+	const boardnum = /*[[${cboard.cBoardnum}]]*/'';
+	let campaignDate = /*[[${cboard.cRegdate}]]*/'';
+	const campaignDateDiff = date(campaignDate);
+	let session_loginUser = /*[[${session.loginUser}]]*/'';
+	let session_loginOrg = /*[[${session.loginOrg}]]*/'';
+	
+	$(document).ready(function () {
+		console.log("시작")
+		const campaignType = /*[[${cboard.type}]]*/'';
+		firstPrint(campaignType);
+		
+		$(".commentbox").on("scroll", function(){
+			var scrollTop = $(this).scrollTop();
+			// 요소의 전체 높이
+			var scrollHeight = $(this).prop('scrollHeight');
+			// 요소의 보여지는 높이
+			var boxHeight = $(this).height();
+			// 스크롤바의 높이
+			var scrollbarHeight = scrollHeight - boxHeight;
+
+			// 만약 스크롤바의 높이와 스크롤된 위치의 합이 요소의 전체 높이와 거의 같아진다면
+			if (scrollTop + boxHeight >= scrollbarHeight - 5) { // 5는 여유를 두는 값입니다.
+				console.log(				scrollTop + boxHeight)
+				let cBoardnum = $(this).next().find("#cBoardnum").val();
+				replyList(cBoardnum);
+			}
+		})
+	})
+
+	function firstPrint(campaignType) {
+		console.log("firstPrint")
+		let str = '';
+		if (campaignType === 'O') {
+			str = orgCampaignPrint();
+		}
+		else {
+			str = managerCampaignPrint();
+		}
+		$(".campaignView").html(str);
+		side_box_Print();
+		replyList(boardnum);
+	}
+
+	function orgCampaignPrint() {
+		let str = '';
+		let campaignProfileFileLink = /*[[${campaignProfileFileLink}]]*/'';
+		let orgid = /*[[${cboard.connectid}]]*/'';
+		let content = /*[[${cboard.cContent}]]*/'';
+		let	campaign_likecount = /*[[${campaign_likecount}]]*/'';
+		let category = /*[[${category}]]*/'';
+		let campaignWriterName = /*[[${campaignWriterName}]]*/'';
+		
+		str += `<div id="board${boardnum}" class="orgBoard board">
+	<div class="modal_box" style="display: flex; position: relative;">
+		<div class="modal">
+			<div class="modalBoard">
+				<div class="boardHeader">
+					<div class="mainHeader">
+						<a href="#" class="profile">
+							<img src="${campaignProfileFileLink}">
+							<p>${campaignWriterName}</p>
+						</a>
+						<p class="campaignDate">${campaignDateDiff}</p>
+					</div>`
+		if(session_loginUser !== null || session_loginUser !== ''){
+			//User 아니면 안 보임
+			let follow = /*[[${follow}]]*/'';
+			if(follow === null || follow === ''){
+				//팔로우 안 돼 있을 때
+				str += `<a id=addFollow_${orgid} class="follow addFollow_${orgid}" href="javascript:addFollow('${orgid}')">팔로우</a>`
+			}
+		}
+		str +=`</div>
+			<div class="contents">${content}</div>
+			<div class="boardFooter">
+				<div class="hashtag">
+					<p>${category}</p>
+				</div>
+			<div class="btn_box like_box">
+				<p>${campaign_likecount}</p> <!-- 1000이상이면 k 달아주기 -->`
+		if(session_loginUser !== null){
+			console.log("세션 로그인 : "+session_loginUser)
+			//User 아니면 안 보임
+			let cBoard_like = /*[[${cBoard_like}]]*/'';
+			if(cBoard_like === null){
+				//좋아요 안 돼 있을 때
+				str +=`<a href="javascript:addLike(${boardnum})" style="display:block" id="addLike${boardnum}" class="addLike"><i class="fa-regular fa-heart"></i></a>
+				<a href="javascript:cancelLike(${boardnum})" style="display:none" id="cancelLike${boardnum}" class="cancelLike"><i style="color:rgb(255, 128, 194)" class="fa-solid fa-heart"></i></a>`
+			}
+			else{
+				//좋아요 돼 있을 때
+				str +=`<a href="javascript:addLike(${boardnum})" style="display:none" id="addLike${boardnum}" class="addLike"><i class="fa-regular fa-heart"></i></a>
+				<a href="javascript:cancelLike(${boardnum})" style="display:block" id="cancelLike${boardnum}" class="cancelLike"><i style="color:rgb(255, 128, 194)" class="fa-solid fa-heart"></i></a>`
+			}
+		}
+		else{
+			str +=`좋아요`;
+		}
+		str+= `<a href="javascript:copyLink(${boardnum})"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+			</div>
+		</div>
+	</div>
+</div>`
+		return str;
+	}
+	
+	function side_box_Print(){
+		let str = `<div class="modal_side_box">
+	<div class="commentbox">
+		<p id="no_comment${boardnum}" class="no_comment">댓글이 없습니다.</p>
+	</div>
+	<div class="comment_regist_box">
+		<input type="hidden" id="cBoardnum" value="${boardnum}">
+		
+		<input type="hidden" id="modifyflag${boardnum}" value="false">
+		<input type="hidden" id="replyflag${boardnum}" value="false">
+		<input type="hidden" id="replyprint${boardnum}" value="false">
+		
+		<input type="hidden" id="commentlastnum${boardnum}" value='0'>
+		<textarea class="regist_commentdetail" id="commentdetail${boardnum}"></textarea>
+		<a href="javascript:commentRegist(${boardnum})" class="registBtn">등록</a>
+		<div style="display:none" class="modifyBtn_box">
+			<a class="modifyBtn">수정</a>
+			<a class="modifyCancelBtn">취소</a>
+		</div>
+	</div>
+</div>`;
+		$("#board"+boardnum+" .modal_box .modal").append(str);
+	}
+	
+	function managerCampaignPrint() {
+		console.log("managerPrint")
+		let str = '';
+		let content = /*[[${cboard.cContent}]]*/'';
+		let	campaign_likecount = /*[[${campaign_likecount}]]*/'';
+		
+		str += `
+		<div class="managerBoard board">
+			<div class="modal_box" style="display: flex; position: relative;">
+				<div class="modal">
+					<div class="modalBoard">
+						<div class="contents">${content}</div>
+						<div class="boardFooter">
+							<div class="btn_box like_box">
+								<p>${campaign_likecount}</p>`
+								if(session_loginUser !== null){
+									console.log("세션 로그인 : "+session_loginUser)
+									//User 아니면 안 보임
+									let cBoard_like = /*[[${cBoard_like}]]*/'';
+									if(cBoard_like === null){
+										//좋아요 안 돼 있을 때
+										str +=`<a href="javascript:addLike(${boardnum})" style="display:block" id="addLike${boardnum}" class="addLike"><i class="fa-regular fa-heart"></i></a>
+										<a href="javascript:cancelLike(${boardnum})" style="display:none" id="cancelLike${boardnum}" class="cancelLike"><i style="color:rgb(255, 128, 194)" class="fa-solid fa-heart"></i></a>`
+									}
+									else{
+										//좋아요 돼 있을 때
+										str +=`<a href="javascript:addLike(${boardnum})" style="display:none" id="addLike${boardnum}" class="addLike"><i class="fa-regular fa-heart"></i></a>
+										<a href="javascript:cancelLike(${boardnum})" style="display:block" id="cancelLike${boardnum}" class="cancelLike"><i style="color:rgb(255, 128, 194)" class="fa-solid fa-heart"></i></a>`
+									}
+								}
+								else{
+									str +=`좋아요`;
+								}
+								str+=`
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>`
+		
+		return str;
+	}
+	
+	// 날짜 계산
+	function date(date) {
+		date = moment(date);
+		
+		// 초 (밀리초)
+		const seconds = 1;
+		// 분
+		const minute = seconds * 60;
+		// 시
+		const hour = minute * 60;
+		// 일
+		const day = hour * 24;
+		// 달
+		const month = day * 30;
+		// 년
+		const year = month * 12;
+
+		var today = moment();
+		var elapsedTime = today.diff(date) / 1000;
+
+		var elapsedText = "";
+		if (elapsedTime < seconds * 10) {
+			elapsedText = "방금 전";
+		} else if (elapsedTime < minute) {
+			elapsedText = Math.trunc(elapsedTime) + "초 전";
+		} else if (elapsedTime < hour) {
+			elapsedText = Math.trunc(elapsedTime / minute) + "분 전";
+		} else if (elapsedTime < day) {
+			elapsedText = Math.trunc(elapsedTime / hour) + "시간 전";
+		} else if (elapsedTime < month) {
+			elapsedText = Math.trunc(elapsedTime / day) + "일 전";
+		} else if (elapsedTime < year) {
+			elapsedText = Math.trunc(elapsedTime / month) + "달 전";
+		} else {
+			elapsedText = Math.trunc(elapsedTime / year) + "년 전";
+		}
+
+		return elapsedText;
+	}
+
+</script>
+
+</html>

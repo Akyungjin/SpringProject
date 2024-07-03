@@ -1,0 +1,36 @@
+<th:block th:fragment="userMyPageMenu(loginUser)">
+	<th:block th:if="${loginUser == null}">
+		<script>
+			alert("로그인 후 이용하세요!");
+			location.replace("/");
+		</script>
+	</th:block>
+	<body>
+		<div class="right_div">
+			<div class="profile_div">
+				<img src="/images/유저프로필.jpeg">
+				<span>[[${session.loginUser}]]</span>
+				<span>
+					<a href="/user/my/modify_userinfo"><input type="button" value="회원정보수정" id="modifyLink"></a>
+					<br>
+					<a id="userDelete" href="/user/my/delete_userinfo"><input type="button" value="회원탈퇴" id="deleteLink"></a>
+				
+				</span>
+			</div>
+			<div class="menu_div">
+				<div>
+					<a href="/user/my/home"><strong>MY홈</strong></a>
+				</div>
+				<div>
+					<a href="/user/my/news"><strong>내 소식</strong></a>
+				</div>
+				<div>
+					<a href="/user/my/User_Like"><strong>내 관심 리스트</strong></a>
+					
+					
+				</div>
+				
+			</div>
+		</div>
+	</body>
+</th:block>

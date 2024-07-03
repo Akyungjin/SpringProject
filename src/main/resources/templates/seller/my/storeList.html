@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>판매자 myhome</title>
+	<script src="https://kit.fontawesome.com/1924b51539.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="/css/header_footer.css">
+	<link rel="stylesheet" href="/css/seller/my/rank.css">
+	<link rel="stylesheet" href="/css/seller/my/storeList.css">
+</head>
+
+<body>
+	<!-- header -->
+	<th:block th:replace="~{layout/header::header(loginUser)}"></th:block>
+	
+	<!-- 컨텐츠 -->
+	<div class="wrap">
+		<!-- up_area - 프로필 및 랭킹 -->
+		<th:block th:replace="~{layout/sellerMyPageRank::sellerMyPageRank(loginUser)}"></th:block>
+		
+		<div class="down_area" >
+			<div class="menu_area">
+				<div>
+					<h3>내정보</h3>
+					<a href="/seller/my/myInfoCheck">내정보 수정</a>
+				</div>
+				<div>
+					<h3>상품</h3>
+					<a href="/seller/my/productNow">현재 재고현황</a>
+					<a href="/store/write">새 물품 등록</a>
+				</div>
+				<div>
+					<h3>스토어</h3>
+					<a href="/seller/my/storeList">내 스토어</a>
+					<a href="/seller/my/storeUpdate">스토어 정보 수정</a>
+				</div>
+				<div>
+					<h3>Q&A</h3>
+					<a href="/seller/my/qna">Q&A 목록 및 관리</a>
+				</div>
+				<div>
+					<h3>리뷰</h3>
+					<a href="/seller/my/reviewList">리뷰 목록 및 관리</a>
+				</div>
+			</div>
+			<div class="contents_area">
+				<div class="button_div">
+					<a href="/seller/my/storeList">
+						<img src="/images/seller/my/스토어.png">
+						<span>apple님 스토어</span>
+					</a>
+					<a href="/seller/my/reviewList">
+						<img src="/images/seller/my/review.png">
+						<span>리뷰</span>
+					</a>
+					<a href="/seller/my/qna">
+						<img src="/images/seller/my/qna.png">
+						<span>Q&A</span>
+					</a>
+					<a href="/store/sBoard">
+						<img src="/images/seller/my/쇼핑.png">
+						<span>다른스토어 보기</span>
+					</a>
+				</div>
+				<h1>apple님 스토어
+				</h1>
+				<div th:if="${storeData != null and storeData.size() > 0}" th:each="data:${storeData}" class="storeList_div">
+					<a th:href="@{/store/storeview(storenum=${data.sInfo.sNum})}" class="store">
+						<div>
+							<h3>[[${data.sInfo.sTitle}]]</h3>
+							<span>[[${data.sInfo.sSummary}]]</span>
+						</div>
+						<img th:src="${data.url}">
+					</a>
+				</div>
+				<div th:if="${storeData == null}" class="storeNull">
+					<h2>등록된 스토어가 없습니다.</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer -->
+	<th:block th:replace="~{layout/footer::footer()}"></th:block>
+</body>
+
+</html>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <link rel="stylesheet" href="/css/index.css">
+   <script src="https://kit.fontawesome.com/516da99189.js" crossorigin="anonymous"></script>
+   <link rel="stylesheet" href="/css/header_footer.css">   
+   <link rel="stylesheet" href="/css/kakaomap.css">
+   <link rel="stylesheet" href="/css/faqChatbot.css">
+   <link rel="stylesheet" href="/css/managerModal.css">
+   
+</head>
+
+<body>
+   <!-- header -->
+   <th:block th:replace="~{layout/header::header(loginUser)}"></th:block>
+   <!-- 컨텐츠 -->
+   <div class="wrap indexwrap">
+      <aside id="intro" class="intro">
+         <!-- 소개 -->
+         <h1>" 사랑을 기부하세요 "</h1>
+         <h1>" GivuLuv "</h1>
+      </aside>
+      <aside id="banner_box" class="banner_box">
+         <!-- 배너 -->
+         <div class="prev"><i class="fa-solid fa-arrow-left fa-2xl"></i></div>
+         <div class="banner_slide_box">
+            <div id="slide_banner" class="slide_banner">
+               <div id="banner0" class="banner">
+                  <a href="#"><img
+                        src="https://image.cherry.charity/static/publish/givecherry/banner/banner-chest.png"
+                        alt="banner1"></a>
+               </div>
+               <div id="banner1" class="banner">
+                  <a href="#"><img
+                        src="https://image.cherry.charity/static/publish/givecherry/banner/banner-salvationarmy.png"
+                        alt="banner2"></a>
+               </div>
+               <div id="banner2" class="banner">
+                  <a href="#"><img
+                        src="https://image.cherry.charity/static/publish/givecherry/banner/banner-cherrycard.png"
+                        alt="banner3"></a>
+               </div>
+               <!--   javascript
+                        str = '';
+                        for(i=0;i<divbanner.length;i++){
+                           str += "<div id="banner${i}" class="banner">";
+                           str += "<a href=""><img src=`/img/${사진}`></a>"
+                           str += "</div>"
+                        }
+                        $(".slide_banner").html(str);
+                  }-->
+            </div>
+         </div>
+         <div class="next"><i class="fa-solid fa-arrow-right fa-2xl"></i></div>
+      </aside>
+      <section class="live_luv_box row mt">
+         <!-- 실시간 누적 기부금 -->
+         <div>
+            <h2>오늘까지</h2>
+            <h2>기부된 사랑</h2>
+         </div>
+         <div>
+            <p>기부</p>
+            <div class="column">
+               <p class="column_center right"><span id="donation_people" class="count">0</span>명</p>
+               <p class="column_center right"><span id="donation_save_money" class="count">0</span>원</p>
+            </div>
+         </div>
+         <div>
+            <p>펀딩</p>
+            <div class="column">
+               <p class="column_center right"><span id="funding_people" class="count">0</span>명</p>
+               <p class="column_center right"><span id="funding_save_money" class="count">0</span>원</p>
+            </div>
+         </div>
+      </section>
+      <section class="donation_box column mt">
+         <!-- 기부 -->
+         <a href="#">
+            <h2># 기부</h2>
+         </a>
+         <div class="donations">
+            <!-- #기부 돔 구현 -->
+         </div>
+      </section>
+      <section class="funding_box column mt">
+         <!-- 펀딩 -->
+         <a href="#">
+            <h2># 펀딩</h2>
+         </a>
+         <div class="fundings">
+            <!-- #펀딩 돔 구현 -->
+         </div>
+      </section>
+      <section class="store_box column mt">
+         <!-- 가게 -->
+         <a href="#">
+            <h2># 가게</h2>
+         </a>
+         <div class="stores">
+
+         </div>
+      </section>
+      <section class="org_box column mt mb">
+         <!-- 단체 자동 롤링 -->
+         <a href="#">
+            <h2># 단체</h2>
+         </a>
+         <div class="org_rolling">
+            <div class="orgs">
+               
+            </div>
+         </div>
+      </section>
+	  <th:block th:replace="~{layout/kakaomap::kakaomap()}"></th:block>
+   </div>
+   <!-- footer -->
+   <th:block th:replace="~{layout/footer::footer()}"></th:block>
+   <!-- FAQ ChatBot -->
+   <th:block th:replace="~{layout/faqChatbot::faqChatbot()}"></th:block>
+   <!-- 관리자 승인여부 모달창 -->
+   <th:block th:replace="~{layout/managerModal::managerModal()}"></th:block>
+   
+</body>
+
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script src="/js/managerModal.js"></script>
+<script src="/js/index.js"></script>
+<script th:inline="javascript">
+	window.onload = function () {
+			// 로그인 후 브라우저 히스토리 초기화
+			if (window.history.replaceState) {
+				window.history.replaceState(null, null, window.location.href);
+			}
+		}
+   $('.logout').on('click', function () {
+      alert("로그아웃되었습니다.")
+   })
+
+   function donation_down_animation(num){
+      $('#donation_info_box'+num).addClass("donation_animation");
+   }
+   function donation_down_animation_remove(num){
+      $('#donation_info_box'+num).removeClass('donation_animation');
+   }
+      
+   
+   
+   // 롤링 배너 복제본 생성
+   let roller = document.querySelector('.orgs');
+   roller.id = 'roller1'; // 아이디 부여
+   
+   let clone = roller.cloneNode(true)
+   // cloneNode : 노드 복제. 기본값은 false. 자식 노드까지 복제를 원하면 true 사용
+   clone.id = 'roller2';
+   document.querySelector('.org_rolling').appendChild(clone); // wrap 하위 자식으로 부착
+   
+   document.querySelector('#roller1').style.left = '0px';
+   document.querySelector('#roller2').style.left = document.querySelector('.orgs').offsetWidth + 'px';
+   // offsetWidth : 요소의 크기 확인(margin을 제외한 padding값, border값까지 계산한 값)
+   
+   roller.classList.add('original');
+   clone.classList.add('clone');
+   $(document).ready(function(){
+	//오늘까지 기부된 사랑 카운팅
+	$.ajax({
+		url:"/index/getTodayCnt",
+		method: 'GET',
+		dataType:'json',
+		contentType:'application/json; charset=utf-8',
+		success: function(response){
+			const counters = document.querySelectorAll(".count");
+			const max = [
+				response.donationTotalPeople,
+				response.donationTotalCost,
+				response.fundingTotalPeople,
+				response.fundingTotalCost
+			];
+
+			for (let i = 0; i < 4; i++) {
+				let $counter = counters[i];
+				let $max = max[i];
+				setTimeout(() => counter($counter, $max), 1318);
+			}
+		},
+		error: function(e){
+			
+		}
+	})
+	
+	
+	
+	//기부 정보 가져오기
+	   $.ajax({
+	   		url: '/index/getDonationInfo',
+	   		method: 'GET',
+			dataType: 'json',
+			contentType: 'application/json; charset=utf-8', 
+			success: function(response) {
+			    console.log(response);
+			
+				// response가 배열이라고 가정하고, 최대 3개까지만 요소 추가
+				            for (let index = 0; index < Math.min(response.length, 5); index++) {
+				                let item = response[index];
+								let dboard = item.dboard;
+				                let dTitle = item.dboard.dtitle;
+				                let targetAmount = item.dboard.targetAmount;
+				                let deadline = item.deadline;
+				                let percentage = item.percentage.toFixed(1); // 소수점 1자리까지 표시
+				                let systemname = item.systemname;
+								console.log(systemname)
+				                let str = '<div id="donation' + index + '" class="donation" onmouseover="donation_down_animation(' + index + ')" onmouseleave="donation_down_animation_remove(' + index + ')">';
+				                str += `<a href="donation/donationView?dBoardnum=${dboard.dboardnum}">`;
+				                str += '<div>';
+				                str += '<div>';
+				                str += `<img loading="lazy" src='${systemname}'" width="250px" height="300px">`;
+				                str += '</div>';
+				                str += `<div id="donation_info_box${index}" class="donation_info_box">`;
+				                str += '<div class="donation_info_header">';
+				                str += '<p id="donation_title' + index + '" class="donation_title">' + dTitle + '</p>';
+				                str += '<p id="donation_D-day' + index + '" class="donation_D-day">D-' + deadline + '</p>';
+				                str += '</div>';
+				                str += '<div class="row_graph_box">';
+				                str += '<div class="row_graph">';
+				                str += '<div style="width:' + percentage + '%" class="donation_amount"></div>';
+				                str += '<div class="donation_save_money_box">';
+				                str += '<p id="donation_save_money' + index + '" class="donation_save_money">목표금액: ' + targetAmount + '원</p>';
+				                str += '<p id="donation_save_money_percent' + index + '">' + percentage + '%</p>';
+				                str += '</div>';
+				                str += '</div>';
+				                str += '</div>';
+				                str += '</div>';
+				                str += '</div>';
+				                str += '</a>';
+				                str += '</div>';
+				                
+				                $(".donations").append(str); // 이전에 생성된 HTML에 새로운 요소 추가
+				            }
+				        },
+	   		error: function(e) {
+				console.log(e);	   		
+			}
+	   	});
+		//펀딩 정보 가져오기
+		$.ajax({
+			url: '/index/getFundingInfo',
+			method: "GET",
+			dataType: 'json',
+			contentType: 'application/json; charset=utf-8',
+			success: function(response) {
+				str = '';
+				for (let index = 0; index < Math.min(response.length, 5); index++) {
+					let item = response[index];
+					let fboard = item.fboard;
+					let fTitle = item.fboard.ftitle;
+					let saveMoney = item.fboard.saveMoney;
+					let fundingDDay = item.fundingDDay;
+					let percentage = item.percentage.toFixed(1); // 소수점 1자리까지 표시
+					let percentageBar = item.percentageBar;
+					let orgname = item.orgname;
+					let systemname = item.systemname;
+					str += `<div id="funding${index}" class="funding">`
+					str += `<a href="funding/fundingView?fBoardnum=${fboard.fboardnum}">`;
+					str += '<div>'
+					str += '<div>'
+					str += `<img loading="lazy" src='${systemname}'" width="250px" height="180px">`
+					str += '</div>'
+					str += '<div id="funding_info_box0" class="funding_info_box">'
+					str += '<div class="funding_info_header">'
+					str += `<p id="funding_title${index}" class="funding_title">${fTitle}</p>`
+					str += '<div class="space-between">'
+					str += '<div class="column">'
+					str += `<p id="funding_market${index}" class="funding_market">${orgname}</p>`
+					str += `<p id="funding_D-day${index}" class="funding_D-day">D-${fundingDDay}일</p>`
+					str += `<p id="funding_save_money${index}" class="funding_save_money">${saveMoney}원</p>`
+					str += '</div>'
+					str += '<div class="funding_chart">'
+					str += `<p id="funding_save_money_percent${index}" class="funding_save_money_percent">${percentage}%</p>`
+					str += `<div class="funding_chart-bar" style="background: conic-gradient(rgb(231, 112, 151) ${percentageBar}deg, rgb(200, 200, 200) ${percentageBar}deg);"></div>`
+					str += '</div>'
+					str += '</div>'
+					str += '</div>'
+					str += '</div>'
+					str += '</div>'
+					str += '</a>'
+					str += '</div>'
+				}
+				$(".fundings").html(str);
+			},
+			error: function(e) {
+				console.log(e);	   		
+			}
+		})
+		//가게 정보 가져오기
+		$.ajax({
+			url: '/index/getStoreInfo',
+			method: "GET",
+			dataType: 'json',
+			contentType: 'application/json; charset=utf-8',
+			success: function(response) {
+				console.log("가게; "+response)
+				str = '';
+				for (let index = 0; index < Math.min(response.length, 5); index++) {
+					let item = response[index];
+					console.log(item)
+					let boardtitle = item.board.stitle;
+					let sboardfile = item.sboardFiles;
+					let storename = item.store.sname;
+					let storenum = item.store.snum;
+					let storefile = item.storeFiles;
+					let cost = item.product.cost;
+					let productnum = item.product.productnum;
+					str += `<div id="store${index}" class="store">`
+					str += `<a href="store/productView?productnum=${productnum}">`
+					str += '<div>'
+					str += `<img loading="lazy" src='${sboardfile}'" width="250px" height="180px">`
+					str += '</div>'
+					str += '<div id="store_info_box0" class="store_info_box">'
+					str += `<a href="/store/storeview?storenum=${storenum}" class="store_profile">`
+					str += `<img loading="lazy" src='${storefile}'" width="40px" height="40px">`
+					str += `<p class="store_name">${storename}</p>`
+					str += '</a>'
+					str += '<div class="store_info_footer">'
+					str += `<p id="store_title${index}" class="store_title">${boardtitle}</p>`
+					str += `<p id="product_price0" class="product_price">가격: ${cost}원</p>`
+					str += '</div>'
+					str += '</div>'
+					str += '</a>'
+					str += '</div>'
+				}
+				$(".stores").html(str);
+				
+			
+			},
+			error: function(e) {
+				console.log(e);	   		
+			}
+		})
+		$.ajax({
+				url:"/org/getOrgProfile",
+				method: 'GET',
+				dataType:'json',
+				contentType:'application/json; charset=utf-8',
+				success: function(response){
+					console.log(response)
+					let str = '';
+					        for (let index = 0; index < response.length; index++) {
+					            let file = response[index];
+					            str += `<a class="org_profile">
+					                        <img class="org_img" src='${file.file}'" width="200px" height="200px">
+					                        <div class="org_name">${file.orgname}</div>
+					                    </a>`;
+					        }
+					        $(".orgs").html(str);
+				},
+				error: function(e){
+					
+				}
+			})
+			let isFaqLoaded = false;
+			    let loginUser = /*[[${session.loginUser}]]*/ "";
+				$(document).ready(function () {
+				    $("#chat-circle").click(function () {
+				        $(".chat-box").toggle('scale', function () {
+				            if ($(".chat-box").is(":visible") && !isFaqLoaded) {
+				                loadQuestions();
+				            }
+				        });
+				    });
+				
+				    $(".chat-box-toggle").click(function () {
+				        $(".chat-box").toggle('scale');
+				    });
+				
+				    $("#chat-form").submit(function (e) {
+				        e.preventDefault();
+				        const messageInput = $("#chat-input");
+				        const message = messageInput.val().trim();
+				        if (message === '') {
+				            alert("메시지를 입력하세요.");
+				            return;
+				        }
+				        addLoadingAnimation();
+				        if (!isNaN(message) && message.trim() !== '') {
+				            getAnswer(parseInt(message));
+				        } else {
+				            setTimeout(function () {
+				                myMessage(message);
+				                const chatLogs = $(".chat-logs");
+				                const newMessage = `<div class="chat-msg"><span class="cm-msg-text errormsg">보기에 있는 질문의 번호를 입력하세요.</span></div>`;
+				                chatLogs.append(newMessage);
+				                chatLogs.scrollTop(chatLogs.prop("scrollHeight"));
+				
+				                messageInput.val("");
+				                messageInput.focus();
+				                loadQuestions();
+				                removeLoadingAnimation();
+				            }, 1500); // 1.5초 딜레이
+				        }
+				        messageInput.val('');
+				    });
+				});
+				
+				function loadQuestions() {
+				    $.ajax({
+				        url: "/chatbot/questions",
+				        type: "POST",
+				        success: function (data) {
+				            let messages = data.map((faq, index) => `${index + 1}. ${faq.question}`).join('\n');
+				            addMessage(messages, 'bot');
+				            isFaqLoaded = true;
+				        }
+				    });
+				}
+				
+				function getAnswer(questionNumber) {
+				    $.ajax({
+				        url: "/chatbot/answer",
+				        type: "POST",
+				        contentType: "application/json",
+				        data: JSON.stringify({ questionNumber: questionNumber }),
+				        success: function (response) {
+				            console.log(response);
+				            setTimeout(function () {
+				                myMessage(questionNumber);
+				                addMessage(response, 'bot');
+				                loadQuestions();
+				                removeLoadingAnimation();
+				            }, 1500); // 1.5초 딜레이
+				        },
+				        error: function (xhr, status, error) {
+				            setTimeout(function () {
+				                myMessage(questionNumber);
+				                if (xhr.status === 404) {
+				                    const chatLogs = $(".chat-logs");
+				                    const newMessage = `<div class="chat-msg"><span class="cm-msg-text errormsg">질문 번호를 찾을 수 없습니다.</span></div>`;
+				                    chatLogs.append(newMessage);
+				                    chatLogs.scrollTop(chatLogs.prop("scrollHeight"));
+				                    loadQuestions();
+				                }
+				                removeLoadingAnimation();
+				            }, 1500); // 1.5초 딜레이
+				        }
+				    });
+				}
+				
+				function addMessage(message, sender) {
+				    const regex = /\d+\./g;
+				
+				    message = message.replace(regex, (match, index) => {
+				        if (index !== 0) {
+				            return '<br>' + match;
+				        } else {
+				            return match;
+				        }
+				    });
+				    const chatLogs = $(".chat-logs");
+				    const newMessage = `<div class="chat-msg ${sender}"><span class="cm-msg-text">${message}</span></div>`;
+				    chatLogs.append(newMessage);
+				    chatLogs.scrollTop(chatLogs.prop("scrollHeight"));
+				}
+				
+				function myMessage(questionNumber) {
+				    const chatLogs = $(".chat-logs");
+				    const newMessage = `<div class="chat-msg user right"><span class="cm-msg-text">${questionNumber}</span></div>`;
+				    chatLogs.append(newMessage);
+				    chatLogs.scrollTop(chatLogs.prop("scrollHeight"));
+				}
+				
+				function addLoadingAnimation() {
+				    const chatLogs = $(".chat-logs");
+				    const loadingMessage = `<div class="chat-msg loading"><span class="cm-msg-text"><div class="loading-dots"><span></span><span></span><span></span></div></span></div>`;
+				    chatLogs.append(loadingMessage);
+				    chatLogs.scrollTop(chatLogs.prop("scrollHeight"));
+				}
+				
+				function removeLoadingAnimation() {
+				    $(".chat-msg.loading").remove();
+				}
+			
+	});
+</script>
+
+</html>
