@@ -1,9 +1,10 @@
 #스프링 프로젝트
 
-💻 GivuLuv 💻
+##💻 GivuLuv 💻
 ![GivuLuv_logo](https://github.com/Akyungjin/SpringProject/assets/168511916/65e786a0-3e9d-4771-8fa3-a7914c4f462e)
 
 기간: 2024.05.08 ~ 2024.06.21
+
 주제: 사용자들이 온라인 상에서 다양한 사회적 이슈와 공익 프로젝트를 지원할 수 있도록 돕는 사이트 구축
 
 #기술스택
@@ -21,8 +22,12 @@
 ![spring](https://github.com/Akyungjin/SpringProject/assets/168511916/8b6282e5-2b3d-42d2-8ed0-06c7db5ad326)
 ![thymeleaf](https://github.com/Akyungjin/SpringProject/assets/168511916/dbce2118-3fcf-4b51-856d-4c764dac6f14)
 
-📞 Contact 📞
-
+##📞 Contact 📞
+<div style="display:flex; flex-direction:row;">
+    <a href="whiteclover129@gmail.com">
+        <img src="https://img.shields.io/badge/Gmail-EA4335?style=for-the-badge&logo=Gmail&logoColor=white"> 
+    </a>
+</div><br>
 
 #구현기능
 
