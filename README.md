@@ -11,7 +11,6 @@
 ![java](https://github.com/Akyungjin/SpringProject/assets/168511916/53823885-1e79-4d4d-9ea7-095f50ed684b)
 ![jquery](https://github.com/Akyungjin/SpringProject/assets/168511916/0cbc176c-031c-4e07-adb9-520360ad759e)
 ![sql](https://github.com/Akyungjin/SpringProject/assets/168511916/d524dd38-f53d-4b4f-902a-f667de25ac65)
-
 ![tomcat](https://github.com/Akyungjin/SpringProject/assets/168511916/78b95c65-b8dc-4a75-9ad3-3f926cf1a1ae)
 
 
